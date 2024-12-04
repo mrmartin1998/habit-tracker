@@ -61,22 +61,22 @@ export default function StreakTracker({ habit }) {
   return (
     <div className="flex justify-center">
       <div className="stats stats-horizontal shadow-md w-full">
-        <div className="stat place-items-center">
-          <div className="stat-title text-xs">Current Streak</div>
-          <div className="stat-value text-primary text-2xl">{streakInfo.currentStreak}</div>
-          <div className="stat-desc">days</div>
+        <div className="stat py-2">
+          <div className="stat-title text-xs">Current</div>
+          <div className="stat-value text-primary text-lg">{streakInfo.currentStreak}</div>
+          <div className="stat-desc text-xs">days</div>
         </div>
         
-        <div className="stat place-items-center">
-          <div className="stat-title text-xs">Best Streak</div>
-          <div className="stat-value text-secondary text-2xl">{streakInfo.longestStreak}</div>
-          <div className="stat-desc">days</div>
+        <div className="stat py-2">
+          <div className="stat-title text-xs">Best</div>
+          <div className="stat-value text-secondary text-lg">{streakInfo.longestStreak}</div>
+          <div className="stat-desc text-xs">days</div>
         </div>
 
-        <div className="stat place-items-center">
-          <div className="stat-title text-xs">Total Completions</div>
-          <div className="stat-value text-2xl">{streakInfo.totalCompletions}</div>
-          <div className="stat-desc">times</div>
+        <div className="stat py-2">
+          <div className="stat-title text-xs">Total</div>
+          <div className="stat-value text-lg">{streakInfo.totalCompletions}</div>
+          <div className="stat-desc text-xs">times</div>
         </div>
       </div>
     </div>
