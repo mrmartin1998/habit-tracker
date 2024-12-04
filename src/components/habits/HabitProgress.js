@@ -67,7 +67,7 @@ export default function HabitProgress({ habit }) {
   };
 
   return (
-    <div className="card bg-base-100 shadow-xl p-4">
+    <div className="card bg-white dark:bg-base-200 shadow-xl p-4">
       <h3 className="text-lg font-semibold mb-4">Weekly Progress</h3>
       <div style={{ height: '200px', position: 'relative' }}>
         <canvas ref={chartRef}></canvas>

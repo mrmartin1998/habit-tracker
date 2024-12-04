@@ -10,32 +10,38 @@ export default function Home() {
 
   useEffect(() => {
     const savedHabits = loadFromLocalStorage();
-    setHabits(savedHabits);
+    if (savedHabits) {
+      setHabits(savedHabits);
+    }
   }, []);
 
   const handleCreateHabit = (newHabit) => {
-    const updatedHabits = [...habits, newHabit];
-    setHabits(updatedHabits);
-    saveToLocalStorage(updatedHabits);
+    setHabits(currentHabits => {
+      const updatedHabits = [...currentHabits, newHabit];
+      saveToLocalStorage(updatedHabits);
+      return updatedHabits;
+    });
     setShowForm(false);
   };
 
   return (
-    <div className="container mx-auto px-4">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">My Habits</h1>
-        <button 
-          className="btn btn-primary"
-          onClick={() => setShowForm(true)}
-        >
-          Create New Habit
-        </button>
+    <div className="min-h-screen bg-base-100 p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold">Habit Tracker</h1>
+          <button 
+            onClick={() => setShowForm(true)}
+            className="btn btn-primary"
+          >
+            Create New Habit
+          </button>
+        </div>
+
+        <HabitList habits={habits} setHabits={setHabits} />
       </div>
 
-      <HabitList habits={habits} setHabits={setHabits} />
-
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <HabitForm 
             onSubmit={handleCreateHabit}
             onClose={() => setShowForm(false)}
