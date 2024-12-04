@@ -10,11 +10,14 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        navbar: "var(--navbar)",
+        card: "var(--card)",
       },
     },
   },
   plugins: [require("daisyui")],
   daisyui: {
     themes: ["light", "dark"],
+    darkTheme: "dark",
   },
 };

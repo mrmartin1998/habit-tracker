@@ -10,7 +10,7 @@ export default function HabitCard({ habit, onToggle, onDelete }) {
 
   return (
     <div 
-      className="card w-full bg-base-100 shadow-xl hover:shadow-2xl transition-all"
+      className="card w-full bg-card shadow-xl hover:shadow-2xl transition-all"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
