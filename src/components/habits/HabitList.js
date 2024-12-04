@@ -1,15 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import HabitCard from './HabitCard';
-import { loadFromLocalStorage, saveToLocalStorage } from '@/lib/localStorage';
+import { saveToLocalStorage } from '@/lib/localStorage';
 
-export default function HabitList() {
-  const [habits, setHabits] = useState([]);
-
-  useEffect(() => {
-    const savedHabits = loadFromLocalStorage();
-    setHabits(savedHabits);
-  }, []);
-
+export default function HabitList({ habits, setHabits }) {
   const handleToggleHabit = (habitId) => {
     const today = new Date().toISOString().split('T')[0];
     
@@ -48,7 +41,7 @@ export default function HabitList() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {habits.map(habit => (
         <HabitCard
           key={habit.id}

@@ -1,15 +1,21 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HabitList from '@/components/habits/HabitList';
 import HabitForm from '@/components/habits/HabitForm';
 import { saveToLocalStorage, loadFromLocalStorage } from '@/lib/localStorage';
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
+  const [habits, setHabits] = useState([]);
+
+  useEffect(() => {
+    const savedHabits = loadFromLocalStorage();
+    setHabits(savedHabits);
+  }, []);
 
   const handleCreateHabit = (newHabit) => {
-    const currentHabits = loadFromLocalStorage();
-    const updatedHabits = [...currentHabits, newHabit];
+    const updatedHabits = [...habits, newHabit];
+    setHabits(updatedHabits);
     saveToLocalStorage(updatedHabits);
     setShowForm(false);
   };
@@ -26,7 +32,7 @@ export default function Home() {
         </button>
       </div>
 
-      <HabitList />
+      <HabitList habits={habits} setHabits={setHabits} />
 
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
