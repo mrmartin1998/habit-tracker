@@ -10,35 +10,34 @@ export default function StreakTracker({ habit }) {
   useEffect(() => {
     const calculateStreaks = () => {
       const sortedDates = [...habit.completedDates].sort();
-      let currentStreak = 0;
-      let longestStreak = 0;
-      let tempStreak = 0;
-      
-      // Get today's date in ISO format
       const today = new Date().toISOString().split('T')[0];
-      const yesterday = new Date(Date.now() - 86400000)
-        .toISOString().split('T')[0];
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
       // Calculate current streak
+      let currentStreak = 0;
       if (sortedDates.includes(today)) {
         currentStreak = 1;
         let checkDate = yesterday;
         
         while (sortedDates.includes(checkDate)) {
           currentStreak++;
-          checkDate = new Date(new Date(checkDate) - 86400000)
-            .toISOString().split('T')[0];
+          const prevDate = new Date(checkDate);
+          prevDate.setDate(prevDate.getDate() - 1);
+          checkDate = prevDate.toISOString().split('T')[0];
         }
       }
 
       // Calculate longest streak
+      let longestStreak = 0;
+      let tempStreak = 0;
+
       sortedDates.forEach((date, index) => {
         if (index === 0) {
           tempStreak = 1;
         } else {
           const prevDate = new Date(sortedDates[index - 1]);
           const currDate = new Date(date);
-          const diffDays = (currDate - prevDate) / (1000 * 60 * 60 * 24);
+          const diffDays = Math.round((currDate - prevDate) / (1000 * 60 * 60 * 24));
           
           if (diffDays === 1) {
             tempStreak++;
@@ -61,23 +60,23 @@ export default function StreakTracker({ habit }) {
 
   return (
     <div className="flex justify-center">
-      <div className="stats stats-horizontal shadow-md text-sm">
-        <div className="stat py-2">
-          <div className="stat-title text-xs">Current</div>
-          <div className="stat-value text-primary text-xl">{streakInfo.currentStreak}</div>
-          <div className="stat-desc text-xs">days</div>
+      <div className="stats stats-horizontal shadow-md w-full">
+        <div className="stat place-items-center">
+          <div className="stat-title text-xs">Current Streak</div>
+          <div className="stat-value text-primary text-2xl">{streakInfo.currentStreak}</div>
+          <div className="stat-desc">days</div>
         </div>
         
-        <div className="stat py-2">
-          <div className="stat-title text-xs">Best</div>
-          <div className="stat-value text-secondary text-xl">{streakInfo.longestStreak}</div>
-          <div className="stat-desc text-xs">streak</div>
+        <div className="stat place-items-center">
+          <div className="stat-title text-xs">Best Streak</div>
+          <div className="stat-value text-secondary text-2xl">{streakInfo.longestStreak}</div>
+          <div className="stat-desc">days</div>
         </div>
 
-        <div className="stat py-2">
-          <div className="stat-title text-xs">Total</div>
-          <div className="stat-value text-xl">{streakInfo.totalCompletions}</div>
-          <div className="stat-desc text-xs">times</div>
+        <div className="stat place-items-center">
+          <div className="stat-title text-xs">Total Completions</div>
+          <div className="stat-value text-2xl">{streakInfo.totalCompletions}</div>
+          <div className="stat-desc">times</div>
         </div>
       </div>
     </div>

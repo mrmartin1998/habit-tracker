@@ -3,6 +3,8 @@ import HabitCard from './HabitCard';
 import { saveToLocalStorage } from '@/lib/localStorage';
 
 export default function HabitList({ habits, setHabits }) {
+  const [expandedId, setExpandedId] = useState(null);
+
   const handleToggleHabit = (habitId) => {
     const today = new Date().toISOString().split('T')[0];
     
@@ -12,7 +14,6 @@ export default function HabitList({ habits, setHabits }) {
           const completedDates = habit.completedDates.includes(today)
             ? habit.completedDates.filter(date => date !== today)
             : [...habit.completedDates, today];
-          
           return { ...habit, completedDates };
         }
         return habit;
@@ -29,6 +30,13 @@ export default function HabitList({ habits, setHabits }) {
       saveToLocalStorage(updatedHabits);
       return updatedHabits;
     });
+    if (expandedId === habitId) {
+      setExpandedId(null);
+    }
+  };
+
+  const handleToggleExpand = (habitId) => {
+    setExpandedId(currentId => currentId === habitId ? null : habitId);
   };
 
   if (habits.length === 0) {
@@ -41,13 +49,15 @@ export default function HabitList({ habits, setHabits }) {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 [&>*]:h-fit">
       {habits.map(habit => (
         <HabitCard
           key={habit.id}
           habit={habit}
           onToggle={handleToggleHabit}
           onDelete={handleDeleteHabit}
+          isExpanded={expandedId === habit.id}
+          onToggleExpand={handleToggleExpand}
         />
       ))}
     </div>
